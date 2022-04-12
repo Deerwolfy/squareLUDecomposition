@@ -12,8 +12,8 @@ MPI_INCLUDE = /I'$(WINDOWS_SDK)\MPI\Include' \
 	      /I'$(WINDOWS_SDK)\MPI\Include\x64'
 
 WIN_LIB = /libpath:'$(VISUAL_STUDIO_ROOT)\Community\VC\Tools\MSVC\14.29.30133\lib\x64' \
-          /libpath:'$(WINDOWS_KIT)\10\Lib\10.0.19041.0\um\x64' \
-	  /libpath:'$(WINDOWS_KIT)\10\Lib\10.0.19041.0\ucrt\x64'
+	/libpath:'$(WINDOWS_KIT)\10\Lib\10.0.19041.0\um\x64' \
+	/libpath:'$(WINDOWS_KIT)\10\Lib\10.0.19041.0\ucrt\x64'
 MPI_LIB = /libpath:'$(WINDOWS_SDK)\MPI\Lib\x64'
 
 CL = $(CL_EXE) $(WIN_INCLUDE) $(MPI_INCLUDE) /I. /c
