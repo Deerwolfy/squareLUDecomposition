@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<math.h>
 #include"mat_func.h"
+#include"defs.h"
 
 void decompose(double** source, double*** l, double*** u, unsigned int n);
 void print_verbose(double** matrix, double** source, double** l, double** u, double** result, unsigned int n);
@@ -9,7 +11,11 @@ void decompose(double** source, double*** l, double*** u, unsigned int n)
 {
   for (int k = 0; k < n-1; ++k) {
     for (int a = k+1; a < n; ++a) {
-      source[a][k] = source[a][k] / source[k][k];
+      if(fabs(source[k][k]) < MY_EPSILON){
+        source[a][k] = source[a][k];
+      } else {
+        source[a][k] = source[a][k] / source[k][k];
+      }
       for (int i = k+1; i < n; ++i) {
         source[a][i] = source[a][i] - source[a][k] * source[k][i];
       }
@@ -20,7 +26,9 @@ void decompose(double** source, double*** l, double*** u, unsigned int n)
 
 void print_verbose(double** matrix, double** source, double** l, double** u, double** result, unsigned int n)
 {
-  mat_print(matrix, n, "Source matrix:");
+  mat_print(source, n, "Source matrix:");
+  putchar('\n');
+  mat_print(matrix, n, "Before split:");
   putchar('\n');
   mat_print(u, n, "U matrix");
   putchar('\n');
@@ -45,11 +53,26 @@ int main(int argc, char* argv[]) {
 
   for(unsigned int i = 0; i < num_of_tests; ++i) {
     double** matrix = mat_generate(n);
+    if(!matrix){
+      printf("Failed to allocate memory for matrix.");
+    }
     double** source = mat_copy(matrix,n);
+    if(!source){
+      printf("Failed to allocate memory for source.");
+    }
     double** l = mat_square_alloc(n);
+    if(!l){
+      printf("Failed to allocate memory for l.");
+    }
     double** u = mat_square_alloc(n);
+    if(!u){
+      printf("Failed to allocate memory for u.");
+    }
     decompose(matrix,&l,&u,n);
     double** test_result = mat_mult(l,u,n);
+    if(!test_result){
+      printf("Failed to allocate memory for test_result.");
+    }
 
     if(num_of_tests < 5){
       print_verbose(matrix,source,l,u,test_result,n);

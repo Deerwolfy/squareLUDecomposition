@@ -4,8 +4,6 @@
 #include<time.h>
 #include<stdlib.h>
 
-#define MAT_EPSILON 0.00001
-
 void mat_print(double** mat, unsigned int n, const char* label);
 double** mat_generate(unsigned int n);
 void mat_free(double** mat, unsigned int n);

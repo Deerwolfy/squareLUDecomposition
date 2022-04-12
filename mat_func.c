@@ -1,4 +1,5 @@
 #include"mat_func.h"
+#include"defs.h"
 #include<stdio.h>
 #include<math.h>
 
@@ -34,10 +35,10 @@ double** mat_generate(unsigned int n)
 
 double** mat_square_alloc(unsigned int n)
 {
-  double** mat = (double**)malloc(n * sizeof(double*));
+  double** mat = (double**)calloc(n,sizeof(double*));
   if(mat) {
     for(unsigned int i = 0; i < n; ++i) {
-      mat[i] = (double*)malloc(n * sizeof(double));
+      mat[i] = (double*)calloc(n,sizeof(double));
       if(!mat[i]) {
         while(--i != -1){
           free(mat[i]);
@@ -113,7 +114,7 @@ char mat_cmp(double** r, double** l, unsigned int n)
   if(!r || !l) return 0;
   for(unsigned int i = 0; i < n; ++i){
     for(unsigned int j = 0; j < n; ++j){
-      if(fabs(r[i][j] - l[i][j]) > MAT_EPSILON){
+      if(fabs(r[i][j] - l[i][j]) > MY_EPSILON){
         return sign(r[i][j] - l[i][j]);
       }
     }
