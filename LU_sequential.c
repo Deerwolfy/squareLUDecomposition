@@ -4,15 +4,15 @@
 #include"mat_func.h"
 #include"defs.h"
 
-void decompose(double** source, double*** l, double*** u, unsigned int n);
-void print_verbose(double** matrix, double** source, double** l, double** u, double** result, unsigned int n);
+char decompose(double** source, double*** l, double*** u, unsigned int n);
+void print_verbose(double** matrix, double** source, double** l, double** u, double** result, unsigned int n, char LU_exists);
 
-void decompose(double** source, double*** l, double*** u, unsigned int n)
+char decompose(double** source, double*** l, double*** u, unsigned int n)
 {
   for (int k = 0; k < n-1; ++k) {
     for (int a = k+1; a < n; ++a) {
       if(fabs(source[k][k]) < MY_EPSILON){
-        source[a][k] = source[a][k];
+        return 0;
       } else {
         source[a][k] = source[a][k] / source[k][k];
       }
@@ -22,12 +22,17 @@ void decompose(double** source, double*** l, double*** u, unsigned int n)
     }
   }
   mat_LU_split(source,l,u,n);
+  return 1;
 }
 
-void print_verbose(double** matrix, double** source, double** l, double** u, double** result, unsigned int n)
+void print_verbose(double** matrix, double** source, double** l, double** u, double** result, unsigned int n, char LU_exists)
 {
   mat_print(source, n, "Source matrix:");
   putchar('\n');
+  if(!LU_exists){
+    printf("LU decomposition does not exists for given matrix!\n");
+    return;
+  }
   mat_print(matrix, n, "Before split:");
   putchar('\n');
   mat_print(u, n, "U matrix");
@@ -68,23 +73,27 @@ int main(int argc, char* argv[]) {
     if(!u){
       printf("Failed to allocate memory for u.");
     }
-    decompose(matrix,&l,&u,n);
+    char is_LU_exists = decompose(matrix,&l,&u,n);
     double** test_result = mat_mult(l,u,n);
     if(!test_result){
       printf("Failed to allocate memory for test_result.");
     }
 
     if(num_of_tests < 5){
-      print_verbose(matrix,source,l,u,test_result,n);
+      print_verbose(matrix,source,l,u,test_result,n,is_LU_exists);
     }
     else {
-      if(mat_cmp(source,test_result,n) != 0){
-        putchar('!');
-        print_verbose(matrix,source,l,u,test_result,n);
-        return 1;
-      }
-      else {
-        putchar('.');
+      if(is_LU_exists){
+        if(mat_cmp(source,test_result,n) != 0){
+          putchar('!');
+          print_verbose(matrix,source,l,u,test_result,n,1);
+          return 1;
+        }
+        else {
+          putchar('.');
+        }
+      } else {
+        putchar('?');
       }
     }
 
