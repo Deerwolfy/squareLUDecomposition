@@ -25,12 +25,6 @@ LU_Parallel : LU_Parallel.obj mat_func.obj
 LU_Parallel.obj : LU_Parallel.c mat_func.h
 	$(CL) LU_Parallel.c
 
-LU_Parallel_PeqN : LU_Parallel_PeqN.obj mat_func.obj
-	$(LINK) /out:LU_Parallel_PeqN.exe LU_Parallel_PeqN.obj mat_func.obj
-
-LU_Parallel_PeqN.obj : LU_Parallel_PeqN.c mat_func.h
-	$(CL) LU_Parallel_PeqN.c
-
 LU_sequential : LU_sequential.obj mat_func.obj
 	$(LINK_EXE) $(WIN_LIB) /machine:x64 /out:LU_sequential.exe LU_sequential.obj mat_func.obj
 

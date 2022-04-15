@@ -1,5 +1,4 @@
 *.obj
 *.exe
 *.swp
-compile_commands.json
 .cache
