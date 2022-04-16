@@ -19,10 +19,10 @@ MPI_LIB = /libpath:'$(WINDOWS_SDK)\MPI\Lib\x64'
 CL = $(CL_EXE) $(WIN_INCLUDE) $(MPI_INCLUDE) /I. /c
 LINK = $(LINK_EXE) /machine:x64 /dynamicbase $(WIN_LIB) $(MPI_LIB) 'msmpi.lib'
 
-LU_Parallel : LU_Parallel.obj mat_func.obj
-	$(LINK) /out:LU_Parallel.exe LU_Parallel.obj mat_func.obj
+LU_Parallel : LU_Parallel.obj mat_func.obj mat_flat_func.obj
+	$(LINK) /out:LU_Parallel.exe LU_Parallel.obj mat_func.obj mat_flat_func.obj
 
-LU_Parallel.obj : LU_Parallel.c mat_func.h
+LU_Parallel.obj : LU_Parallel.c mat_func.h mat_flat_func.h
 	$(CL) LU_Parallel.c
 
 LU_sequential : LU_sequential.obj mat_func.obj
@@ -33,6 +33,9 @@ LU_sequential.obj : LU_sequential.c mat_func.h
 
 mat_func.obj : mat_func.h mat_func.c
 	$(CL) mat_func.c
+
+mat_flat_func.obj : mat_flat_func.h mat_flat_func.c
+	$(CL) mat_flat_func.c
 
 clean :
 	rm *.obj *.exe

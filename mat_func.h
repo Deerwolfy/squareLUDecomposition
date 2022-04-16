@@ -1,7 +1,6 @@
 #ifndef MAT_FUNC
 #define MAT_FUNC
 
-#include<time.h>
 #include<stdlib.h>
 
 void mat_print(double** mat, unsigned int n, const char* label);
