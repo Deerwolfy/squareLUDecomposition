@@ -2,11 +2,8 @@
 #include<stdlib.h>
 #include<mpi.h>
 #include<math.h>
+#include<time.h>
 #include"mat_func.h"
-
-/* TODO:
- * Refactor code
- */
 
 int main(int argc, char* argv[]) {
   int n = 3;

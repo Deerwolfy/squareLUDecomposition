@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include<time.h>
 #include"mat_func.h"
 #include"defs.h"
 
@@ -9,14 +10,14 @@ void print_verbose(double** matrix, double** source, double** l, double** u, dou
 
 char decompose(double** source, double*** l, double*** u, unsigned int n)
 {
-  for (int k = 0; k < n-1; ++k) {
-    for (int a = k+1; a < n; ++a) {
+  for (unsigned int k = 0; k < n-1; ++k) {
+    for (unsigned int a = k+1; a < n; ++a) {
       if(fabs(source[k][k]) < MY_EPSILON){
         return 0;
       } else {
         source[a][k] = source[a][k] / source[k][k];
       }
-      for (int i = k+1; i < n; ++i) {
+      for (unsigned int i = k+1; i < n; ++i) {
         source[a][i] = source[a][i] - source[a][k] * source[k][i];
       }
     }
