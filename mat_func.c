@@ -40,7 +40,8 @@ double** mat_square_alloc(unsigned int n)
     for(unsigned int i = 0; i < n; ++i) {
       mat[i] = (double*)calloc(n,sizeof(double));
       if(!mat[i]) {
-        while(--i != -1){
+        /* Unsigned number will overflow at the last subsraction */
+        while(--i >= n){
           free(mat[i]);
         }
         free(mat);
